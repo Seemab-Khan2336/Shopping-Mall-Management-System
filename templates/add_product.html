@@ -1,0 +1,52 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 p-4">
+            <h3 class="fw-bold mb-3">Register New Product</h3>
+            <hr>
+            <form method="POST" id="productForm" onsubmit="return validateForm()">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger small">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-success w-100">Save Product</button>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-secondary w-100">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function validateForm() {
+    let name = document.getElementById('prod_name').value.trim();
+    let price = parseFloat(document.getElementById('prod_price').value);
+    let qty = parseInt(document.getElementById('prod_qty').value);
+
+    if (name === "") {
+        alert("Product title cannot be left empty.");
+        return false;
+    }
+    if (isNaN(price) || price <= 0) {
+        alert("Please output a valid numerical price value above 0.");
+        return false;
+    }
+    if (isNaN(qty) || qty < 0) {
+        alert("Stock quantity cannot possess a negative evaluation value.");
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}

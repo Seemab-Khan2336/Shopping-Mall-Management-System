@@ -1,0 +1,45 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 p-4">
+            <h3 class="fw-bold mb-3">Update Product Stock Details</h3>
+            <p class="text-muted small">Modifying entry parameters for: <strong>{{ product.name }}</strong></p>
+            <hr>
+            <form method="POST" id="editForm" onsubmit="return validateEditForm()">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary w-100">Apply Parameter Changes</button>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-secondary w-100">Go Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function validateEditForm() {
+    let price = parseFloat(document.getElementById('prod_price').value);
+    let qty = parseInt(document.getElementById('prod_qty').value);
+
+    if (isNaN(price) || price <= 0) {
+        alert("Please set a correct decimal valuation format higher than zero.");
+        return false;
+    }
+    if (isNaN(qty) || qty < 0) {
+        alert("Product stock integers must be 0 or dynamic positive integers.");
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}

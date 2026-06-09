@@ -1,0 +1,30 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm border">
+    <div class="container-fluid py-2">
+        <h1 class="display-5 fw-bold text-dark">Shopping Mall Management System</h1>
+        <p class="col-md-8 fs-5 text-muted">A dedicated administrative panel built to track product details, instantly configure current parameters, perform queries, and regulate warehouse thresholds seamlessly.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-dark btn-lg px-4 mt-2">Enter Stock Management Catalog</a>
+    </div>
+</div>
+
+<div class="row g-4 text-center">
+    <div class="col-md-6">
+        <div class="card bg-primary text-white shadow-sm border-0 py-4">
+            <div class="card-body">
+                <h5 class="text-uppercase tracking-wide font-monospace">Registered Unique Products</h5>
+                <h1 class="display-2 fw-bold">{{ total_products }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card {% if low_stock > 0 %}bg-danger{% else %}bg-warning text-dark{% endif %} text-white shadow-sm border-0 py-4">
+            <div class="card-body">
+                <h5 class="text-uppercase tracking-wide font-monospace">Critical Stock Metrics Level (< 5 Items)</h5>
+                <h1 class="display-2 fw-bold">{{ low_stock }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
